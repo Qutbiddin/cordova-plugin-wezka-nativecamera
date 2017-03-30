@@ -34,7 +34,7 @@
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <activity
                 android:label="nativecameraplugin"
-                android:name="com.tmantman.nativecamera.CameraActivity"
+                android:name="com.whamads.nativecamera.CameraActivity"
                 android:screenOrientation="portrait"
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             </activity>
