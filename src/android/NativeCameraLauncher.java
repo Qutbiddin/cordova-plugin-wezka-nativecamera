@@ -14,7 +14,7 @@
    		limitations under the License.
  */
 
-package com.tmantman.nativecamera;
+package com.whamads.nativecamera;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,7 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 
-import com.tmantman.nativecamera.ExifHelper;
+import com.whamads.nativecamera.ExifHelper;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;

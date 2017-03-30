@@ -14,7 +14,7 @@
    		limitations under the License.
  */
 
-package com.tmantman.nativecamera;
+package com.whamads.nativecamera;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;

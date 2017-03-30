@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
-           id="com.tmantman.nativecamera"
+           id="com.whamads.nativecamera"
       version="0.1.9">
-    <name>TmanTman Native Camera</name>
+    <name>Whamads Native Camera</name>
 
     <js-module src="www/CameraConstants.js" name="Camera">
         <clobbers target="Camera" />
@@ -21,7 +21,7 @@
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="Camera">
-                <param name="android-package" value="com.tmantman.nativecamera.NativeCameraLauncher"/>
+                <param name="android-package" value="com.whamads.nativecamera.NativeCameraLauncher"/>
             </feature>
         </config-file>
 
@@ -40,9 +40,9 @@
             </activity>
         </config-file>
 
-        <source-file src="src/android/CameraActivity.java" target-dir="src/com/tmantman/nativecameraplugin" />
-        <source-file src="src/android/NativeCameraLauncher.java" target-dir="src/com/tmantman/nativecameraplugin" />
-        <source-file src="src/android/ExifHelper.java" target-dir="src/com/tmantman/nativecameraplugin" />
+        <source-file src="src/android/CameraActivity.java" target-dir="src/com/whamads/nativecameraplugin" />
+        <source-file src="src/android/NativeCameraLauncher.java" target-dir="src/com/whamads/nativecameraplugin" />
+        <source-file src="src/android/ExifHelper.java" target-dir="src/com/whamads/nativecameraplugin" />
         <source-file src="src/android/nativecameraplugin.xml" target-dir="res/layout" />
         <source-file src="res/btn_shot.png" target-dir="res/drawable" />
         <source-file src="res/btn_flip.png" target-dir="res/drawable" />
