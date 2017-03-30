@@ -95,6 +95,7 @@ public class CameraActivity extends Activity implements SensorEventListener {
         final Button flipCamera = (Button) findViewById(getResources().getIdentifier("flipCamera", "id", getPackageName()));
         final Button flashButton = (Button) findViewById(getResources().getIdentifier("flashButton", "id", getPackageName()));
         final Button captureButton = (Button) findViewById(getResources().getIdentifier("captureButton", "id", getPackageName()));
+        final Button closeButton = (Button) findViewById(getResources().getIdentifier("closeButton", "id", getPackageName()));
         final ImageView viewfinder = (ImageView) findViewById(getResources().getIdentifier("viewfinder", "id", getPackageName()));
         final RelativeLayout focusButton = (RelativeLayout) findViewById(getResources().getIdentifier("viewfinderArea", "id", getPackageName()));
         final int imgFlashNo = getResources().getIdentifier("@drawable/btn_flash_no", null, getPackageName());
@@ -134,6 +135,11 @@ public class CameraActivity extends Activity implements SensorEventListener {
         screenWidth = display.getWidth();
         screenHeight = display.getHeight();
 
+        closeButton.setOnClickListener(new View.OnTouchListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            });
 
         focusButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
