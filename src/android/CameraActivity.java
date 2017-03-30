@@ -138,7 +138,7 @@ public class CameraActivity extends Activity implements SensorEventListener {
         closeButton.setOnClickListener(new View.OnTouchListener() {
             @Override
             public void onClick(View v) {
-                setResult(RESULT_OK);
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });
@@ -324,7 +324,7 @@ public class CameraActivity extends Activity implements SensorEventListener {
             } catch (IOException e) {
                 Log.d(TAG, "Error accessing file: " + e.getMessage());
             }
-            setResult(Activity.RESULT_CANCELED);
+            setResult(RESULT_OK);
             pressed = false;
             finish();
         }
