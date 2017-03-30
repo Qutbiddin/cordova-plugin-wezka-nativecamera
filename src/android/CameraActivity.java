@@ -139,9 +139,9 @@ public class CameraActivity extends Activity implements SensorEventListener {
             @Override
             public void onClick(View v) {
                 setResult(RESULT_OK);
-                pressed = false;
                 finish();
-            });
+            }
+        });
 
         focusButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
