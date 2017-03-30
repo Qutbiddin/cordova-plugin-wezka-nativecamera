@@ -135,7 +135,7 @@ public class CameraActivity extends Activity implements SensorEventListener {
         screenWidth = display.getWidth();
         screenHeight = display.getHeight();
 
-        closeButton.setOnClickListener(new View.OnTouchListener() {
+        closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setResult(RESULT_CANCELED);
