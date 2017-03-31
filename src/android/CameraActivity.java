@@ -423,8 +423,9 @@ public class CameraActivity extends Activity implements SensorEventListener {
                 Camera.Size size = getBestPreviewSize(height, parameters);
                 Camera.Size pictureSize = getSmallestPictureSize(parameters);
                 if (size != null && pictureSize != null) {
-                    parameters.setPreviewSize(size.width, size.height);
-                    parameters.setPictureSize(pictureSize.width, pictureSize.height);
+                    parameters.setPreviewSize(800, 600);
+                    parameters.setPictureSize(800, 600);
+                    parameters.setJpegQuality(60);
 
                     parameters.setPictureFormat(ImageFormat.JPEG);
                     // For Android 2.3.4 quirk
