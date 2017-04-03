@@ -17,7 +17,9 @@
 package com.whamads.nativecamera;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -48,8 +50,11 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +101,7 @@ public class CameraActivity extends Activity implements SensorEventListener {
         final Button flashButton = (Button) findViewById(getResources().getIdentifier("flashButton", "id", getPackageName()));
         final Button captureButton = (Button) findViewById(getResources().getIdentifier("captureButton", "id", getPackageName()));
         final Button closeButton = (Button) findViewById(getResources().getIdentifier("closeButton", "id", getPackageName()));
+        final Button galleryButton = (Button) findViewById(getResources().getIdentifier("galleryButton", "id", getPackageName()));
         final ImageView viewfinder = (ImageView) findViewById(getResources().getIdentifier("viewfinder", "id", getPackageName()));
         final RelativeLayout focusButton = (RelativeLayout) findViewById(getResources().getIdentifier("viewfinderArea", "id", getPackageName()));
         final int imgFlashNo = getResources().getIdentifier("@drawable/btn_flash_no", null, getPackageName());
@@ -257,7 +263,57 @@ public class CameraActivity extends Activity implements SensorEventListener {
             }
         });
 
+        galleryButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, 1);
+            }
+        });
+
+
     }
+
+     @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (resultCode != RESULT_OK) {
+                return;
+            }
+            if (requestCode == 1 && data != null) {
+                    Uri fileUri = (Uri) getIntent().getExtras().get(MediaStore.EXTRA_OUTPUT);
+                    File pictureFile = new File(fileUri.getPath());
+
+                        try {
+                            InputStream iStream = getContentResolver().openInputStream(data.getData());
+                            byte[] inputData = getBytes(iStream);
+                            FileOutputStream fos = new FileOutputStream(pictureFile);
+                            fos.write(inputData);
+                            fos.close();
+                            Log.d(TAG, "File successfully written to filesystem. ");
+                        } catch (FileNotFoundException e) {
+                            Log.d(TAG, "File not found: " + e.getMessage());
+                        } catch (IOException e) {
+                            Log.d(TAG, "Error accessing file: " + e.getMessage());
+                        }
+                        setResult(RESULT_OK);
+                        pressed = false;
+                        finish();
+            }
+        }
+
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+          ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+          int bufferSize = 1024;
+          byte[] buffer = new byte[bufferSize];
+
+          int len = 0;
+          while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+          }
+          return byteBuffer.toByteArray();
+    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
