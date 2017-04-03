@@ -145,7 +145,7 @@ public class CameraActivity extends Activity implements SensorEventListener {
             @Override
             public void onClick(View v) {
                 setResult(RESULT_CANCELED);
-                finish();
+                //finish();
             }
         });
 
@@ -276,31 +276,33 @@ public class CameraActivity extends Activity implements SensorEventListener {
     }
 
      @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if (resultCode != RESULT_OK) {
-                return;
-            }
-            if (requestCode == 1 && data != null) {
-                    Uri fileUri = (Uri) getIntent().getExtras().get(MediaStore.EXTRA_OUTPUT);
-                    File pictureFile = new File(fileUri.getPath());
-
-                        try {
-                            InputStream iStream = getContentResolver().openInputStream(data.getData());
-                            byte[] inputData = getBytes(iStream);
-                            FileOutputStream fos = new FileOutputStream(pictureFile);
-                            fos.write(inputData);
-                            fos.close();
-                            Log.d(TAG, "File successfully written to filesystem. ");
-                        } catch (FileNotFoundException e) {
-                            Log.d(TAG, "File not found: " + e.getMessage());
-                        } catch (IOException e) {
-                            Log.d(TAG, "Error accessing file: " + e.getMessage());
-                        }
-                        setResult(RESULT_OK);
-                        pressed = false;
-                        finish();
-            }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) {
+            return;
         }
+        if (requestCode == 1) {
+            if (data != null) {
+                Uri fileUri = (Uri) getIntent().getExtras().get(MediaStore.EXTRA_OUTPUT);
+                File pictureFile = new File(fileUri.getPath());
+
+                    try {
+                        InputStream iStream = getContentResolver().openInputStream(data.getData());
+                        byte[] inputData = getBytes(iStream);
+                        FileOutputStream fos = new FileOutputStream(pictureFile);
+                        fos.write(inputData);
+                        fos.close();
+                        Log.d(TAG, "File successfully written to filesystem. ");
+                    } catch (FileNotFoundException e) {
+                        Log.d(TAG, "File not found: " + e.getMessage());
+                    } catch (IOException e) {
+                        Log.d(TAG, "Error accessing file: " + e.getMessage());
+                    }
+                    setResult(RESULT_OK);
+                    pressed = false;
+                    //finish();
+                }
+        }
+    }
 
     public byte[] getBytes(InputStream inputStream) throws IOException {
           ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
@@ -382,7 +384,7 @@ public class CameraActivity extends Activity implements SensorEventListener {
             }
             setResult(RESULT_OK);
             pressed = false;
-            finish();
+            //finish();
         }
     };
 
