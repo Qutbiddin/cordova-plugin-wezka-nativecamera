@@ -68,7 +68,6 @@ import android.util.Log;
 public class NativeCameraLauncher extends CordovaPlugin {
 
 	private static final String LOG_TAG = "NativeCameraLauncher";
-	private static final String browseGallery = "BrowseGallery";
 
 	private int mQuality;
 	private int targetWidth;
@@ -184,8 +183,8 @@ public class NativeCameraLauncher extends CordovaPlugin {
 		}
 
 		// If browse gallery clicked
-		else if (resultCode == browseGallery) {
-			//TODO Create Gallery Activity
+		else if (resultCode == CameraActivity.BROWSE_GALLERY) {
+			this.failPicture("BROWSE_GALLERY");
 		}
 
 		// If cancelled

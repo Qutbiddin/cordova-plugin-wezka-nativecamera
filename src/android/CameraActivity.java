@@ -54,7 +54,7 @@ import java.util.List;
 public class CameraActivity extends Activity implements SensorEventListener {
 
     private static final String TAG = "CameraActivity";
-    private static final String browseGallery = "BrowseGallery";
+    public static final int BROWSE_GALLERY = 100;
 
     private SurfaceView preview;
     private SurfaceHolder previewHolder = null;
@@ -138,6 +138,7 @@ public class CameraActivity extends Activity implements SensorEventListener {
             @Override
             public void onClick(View v) {
                 setResult(RESULT_CANCELED);
+                pressed = false;
                 finish();
             }
         });
@@ -250,7 +251,9 @@ public class CameraActivity extends Activity implements SensorEventListener {
 
         galleryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                setResult(RESULT_OK);
+                setResult(BROWSE_GALLERY);
+                pressed = false;
+                finish();
             }
         });
 
