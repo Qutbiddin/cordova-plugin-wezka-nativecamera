@@ -1,12 +1,9 @@
 /*
 	    Copyright 2014 Giovanni Di Gregorio.
-
 		Licensed under the Apache License, Version 2.0 (the "License");
 		you may not use this file except in compliance with the License.
 		You may obtain a copy of the License at
-
 		http://www.apache.org/licenses/LICENSE-2.0
-
 		Unless required by applicable law or agreed to in writing, software
 		distributed under the License is distributed on an "AS IS" BASIS,
 		WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,9 +14,7 @@
 package com.whamads.nativecamera;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -50,11 +45,8 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +54,7 @@ import java.util.List;
 public class CameraActivity extends Activity implements SensorEventListener {
 
     private static final String TAG = "CameraActivity";
+    private static final String browseGallery = "BrowseGallery";
 
     private SurfaceView preview;
     private SurfaceHolder previewHolder = null;
@@ -145,7 +138,7 @@ public class CameraActivity extends Activity implements SensorEventListener {
             @Override
             public void onClick(View v) {
                 setResult(RESULT_CANCELED);
-                //finish();
+                finish();
             }
         });
 
@@ -255,6 +248,12 @@ public class CameraActivity extends Activity implements SensorEventListener {
             });
         }
 
+        galleryButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+            }
+        });
+
         captureButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (pressed || camera == null)
@@ -263,59 +262,7 @@ public class CameraActivity extends Activity implements SensorEventListener {
             }
         });
 
-        galleryButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, 1);
-            }
-        });
-
-
     }
-
-     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-        if (requestCode == 1) {
-            if (data != null) {
-                Uri fileUri = (Uri) getIntent().getExtras().get(MediaStore.EXTRA_OUTPUT);
-                File pictureFile = new File(fileUri.getPath());
-
-                    try {
-                        InputStream iStream = getContentResolver().openInputStream(data.getData());
-                        byte[] inputData = getBytes(iStream);
-                        FileOutputStream fos = new FileOutputStream(pictureFile);
-                        fos.write(inputData);
-                        fos.close();
-                        Log.d(TAG, "File successfully written to filesystem. ");
-                    } catch (FileNotFoundException e) {
-                        Log.d(TAG, "File not found: " + e.getMessage());
-                    } catch (IOException e) {
-                        Log.d(TAG, "Error accessing file: " + e.getMessage());
-                    }
-                    setResult(RESULT_OK);
-                    pressed = false;
-                    //finish();
-                }
-        }
-    }
-
-    public byte[] getBytes(InputStream inputStream) throws IOException {
-          ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-          int bufferSize = 1024;
-          byte[] buffer = new byte[bufferSize];
-
-          int len = 0;
-          while ((len = inputStream.read(buffer)) != -1) {
-            byteBuffer.write(buffer, 0, len);
-          }
-          return byteBuffer.toByteArray();
-    }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -384,7 +331,7 @@ public class CameraActivity extends Activity implements SensorEventListener {
             }
             setResult(RESULT_OK);
             pressed = false;
-            //finish();
+            finish();
         }
     };
 
@@ -481,9 +428,8 @@ public class CameraActivity extends Activity implements SensorEventListener {
                 Camera.Size size = getBestPreviewSize(height, parameters);
                 Camera.Size pictureSize = getSmallestPictureSize(parameters);
                 if (size != null && pictureSize != null) {
-                    parameters.setPreviewSize(800, 600);
-                    parameters.setPictureSize(800, 600);
-                    parameters.setJpegQuality(60);
+                    parameters.setPreviewSize(size.width, size.height);
+                    parameters.setPictureSize(pictureSize.width, pictureSize.height);
 
                     parameters.setPictureFormat(ImageFormat.JPEG);
                     // For Android 2.3.4 quirk
